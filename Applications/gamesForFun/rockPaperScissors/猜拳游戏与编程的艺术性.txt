@@ -1,0 +1,115 @@
+猜拳游戏是一个经典的编程初学者练习题。在这个主题上面我写了两段代码。注意，这两段代码虽然有着同样的功能和同样的输出，但是在内部算法上有着本质的区别。这是一个非常能够体现编程的艺术性与其迷人的性质的程序。
+
+在rockPaperScissors.java中，算法是：
+可以总结为“用户行为分析”算法，将用户输入的每一个可能性都进行详尽的分析并且做出独特的响应。这个代码是绝大多数新手都会想到的，也是最简单的算法之一。当然了，不可否认的，这个代码有着许许多多的局限性。其中的一条是当需求变得复杂时，代码也会变得非常亢长。把代码放进来我们分析一下：
+
+import java.util.Scanner;
+public class rockPaperScissors {
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		System.out.println("---------猜拳游戏---------");
+		String response;
+		do {
+			System.out.println("请出拳（1.剪刀／2.石头／3.布）");
+			int result = in.nextInt();
+			int computer = (int)(Math.random()*3);
+			if (result == 1) {
+				switch (computer) {
+					case 0:
+						System.out.println("你出的是剪刀，电脑也出了剪刀，平局。");
+						break;
+					case 1:
+						System.out.println("你出的是剪刀，电脑出了石头，你输了。");
+						break;
+					case 2:
+						System.out.println("你出的是剪刀，电脑出了布，你赢了。");
+						break;
+				}
+			}
+			if (result == 2) {
+				switch (computer) {
+					case 0:
+						System.out.println("你出的是石头，电脑出了剪刀，你赢了。");
+						break;
+					case 1:
+						System.out.println("你出的是石头，电脑也出了石头，平局。");
+						break;
+					case 2:
+						System.out.println("你出的是石头，电脑出了布，你输了。");
+						break;
+				}
+			}
+			if (result == 3) {
+				switch (computer) {
+					case 0:
+						System.out.println("你出的是布，电脑出了剪刀，你输了。");
+						break;
+					case 1:
+						System.out.println("你出的是布，电脑出了石头，你赢了。");
+						break;
+					case 2:
+						System.out.println("你出的是布，电脑也出了布，平局。");
+						break;
+				}
+			}
+			System.out.println("是否继续进程？('y'/'n')");
+			response = in.next();
+		} while (response.equals("y"));
+		System.out.println("游戏结束");
+	}
+}
+
+我们可以看到，对于用户的每一个输入，程序都会提供三种解释，而且是三种不可组合的、独特的回复。那么如果说猜拳游戏一共有四种五种或者n种可能的话，那么独特的回复数量就是n^2种，这样亢长的代码写起来是非常累的。
+
+那么我们再来看一下，在rockPaperScissorModel2.java中，算法是：
+可以总结为“平等关系”算法，将计算机也视作是一位玩家，随后通过比较两个玩家之间的数据来进行分析，通过组合最终输出的不同部分来创造独特的回复。其中最重要的一个特性就是组合的灵活性。相比前面的一种算法，这样的算法在我个人看来更加合理一些。当可能性增加之后（也就是复杂性增加之后），代码同前面一种相比则更加简洁，我们来把代码放进来分析：
+
+import java.util.Scanner;
+public class rockPaperScissorsModel2 {
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		System.out.println("---------猜拳游戏---------");
+		String response;
+		do {
+			System.out.println("请出拳（1.剪刀／2.石头／3.布）");
+			int result = in.nextInt();
+			int computer = (int)(Math.random()*3)+1;
+			switch (result) {
+				case 1:
+					System.out.print("你出的是剪刀，");
+					break;
+				case 2:
+					System.out.print("你出的是石头，");
+					break;
+				case 3:
+					System.out.print("你出的是布，");
+					break;
+			}
+			switch (computer) {
+				case 1:
+					System.out.print("电脑出了剪刀，");
+					break;
+				case 2:
+					System.out.print("电脑出了石头，");
+					break;
+				case 3:
+					System.out.print("电脑出了布，");
+					break;
+			}
+			if (result == computer) {
+				System.out.println("平局。");
+			} else if (result == 1 && computer == 2 || result == 2 && computer == 3 || result == 3 && computer == 1) {
+				System.out.println("你输了。");
+			} else {
+				System.out.println("你赢了。");
+			}
+			System.out.println("是否继续游戏？('y'/'n')");
+			response = in.next();
+		} while (response.equals("y"));
+		System.out.println("游戏结束");
+	}
+}
+
+这一段代码的算法更加合理更加简洁。简洁体现在当可能性扩展到n个的时候需要输出2n+3个基本组成单元，但是却能够输出n^2个独特的回复。但是在n<3的时候，这种组合方式的代码比上一种更长。
+
+总而言之，程序设计的多样性（各种各样的可能）让编程充满了乐趣，使它成为了一门真正的艺术。
